@@ -23,6 +23,8 @@ var TicTacToe = function (player1, player2) {
 
 };
 
+
+
 // TODO
 // Reset the game with a new board and player 1 as the current player.
 TicTacToe.prototype.reset = function () {
@@ -58,7 +60,6 @@ TicTacToe.prototype.reset = function () {
 // Print the board and the current player's name.
 TicTacToe.prototype.print = function () {
   this.board.print();
-  console.log("Its " + this.currentplayer.name.name + "'s turn!" );
 }
 
 // game = new TicTacToe("John", "Mary");
@@ -72,7 +73,11 @@ TicTacToe.prototype.print = function () {
 // TODO
 // Switch this.currentPlayer to the other player.
 TicTacToe.prototype.switchCurrentPlayer = function () {
-  this.currentplayer = this.player2;
+  if ( this.currentplayer === this.player1 ){
+      this.currentplayer = this.player2;
+    } else if ( this.currentplayer === this.player2 ) {
+      this.currentplayer = this.player1;
+    }
 }
 
 // game = new TicTacToe("John", "Mary");
@@ -97,7 +102,7 @@ TicTacToe.prototype.currentChar = function () {
   if ( this.currentplayer === this.player1 ) {
     return "X";
   } else {
-    return "0";
+    return "O";
   }
 }
 
@@ -124,8 +129,29 @@ TicTacToe.prototype.currentChar = function () {
 //
 TicTacToe.prototype.play = function (position) {
   currentChar = this.currentChar();
-  
   this.board.play(currentChar, position);
+  this.print();
+  console.log("Its " + this.currentplayer.name.name + "'s turn!" );
+  this.switchCurrentPlayer();
+  var winner = this.board.winner();
+
+  // if ( winner === this.currentChar() ) {
+  //   console.log(this.currentPlayer + " wins!" )
+  // } else if ( winner === "tie" ) {
+  //   console.log("no one wins!")
+  // } 
+  if ( winner === "X") {
+      console.log(this.player1.name.name + " wins!" );
+  } 
+
+  if ( winner === "O") {
+      console.log(this.player2.name.name + " wins!");
+  }
+
+  if ( winner === "tie") {
+      console.log("It's a tie!  You loosers!");
+  }
+
 
   // TODO, using the functions you implemented above:
   // - Check if the game is over. Return if it is.
@@ -241,6 +267,8 @@ Board.prototype.play = function (char, position) {
   }
 
   this.board[row][col] = char;
+
+ 
 
   return;
 };
